@@ -1,0 +1,172 @@
+# =============================================================================
+# System defaults for vkr-builder (reference of all available settings).
+# =============================================================================
+#
+# Do not edit unless you maintain a fork or need project-wide changes.
+# Normal workflow:
+#   1. Copy or edit config.yaml in the project folder ("init" writes one).
+#   2. Put profiles, metadata and your overrides there - user keys win on merge.
+#
+# CLI flags (--profile, --pagination-engine, --pdf, ...) apply to one run only.
+# Command list: vkr-builder.bat help  |  ./vkr-builder.sh help
+#
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# build - layout engine, export and post-processing
+# -----------------------------------------------------------------------------
+build:
+  # TOC page numbers and table continuation require a layout engine.
+  #   auto         - use whatever is installed: Word first, else LibreOffice
+  #   word         - Microsoft Word via COM (Windows only, most accurate)
+  #   libreoffice  - LibreOffice via UNO (Windows / Linux / macOS)
+  pagination_engine: auto
+
+  # Path to soffice for LibreOffice (null = search PATH and common locations).
+  libreoffice_path: null
+
+  # Also write a PDF next to the DOCX after build (or CLI flag: --pdf).
+  pdf: false
+
+  # PDF export engine: auto | word | libreoffice
+  # (null = the same engine the layout used).
+  pdf_engine: null
+
+  # Sort abbreviations and terms dictionary sections alphabetically before build.
+  sort_dictionary_lists: false
+
+  # Run post-build quality diagnostics on the DOCX (or: build --diagnose).
+  diagnose: false
+
+# -----------------------------------------------------------------------------
+# lint - Markdown checks before build (command: lint)
+# -----------------------------------------------------------------------------
+lint:
+  # true - treat lint warnings as errors and abort the build.
+  strict: false
+
+# -----------------------------------------------------------------------------
+# stats - thresholds for the stats command (null = check disabled)
+# -----------------------------------------------------------------------------
+stats:
+  min_sources: null   # minimum bibliography entry count
+  page_min: null      # minimum estimated page count
+  page_max: null      # maximum estimated page count
+
+# -----------------------------------------------------------------------------
+# watch - the rebuild loop (vkr-builder watch)
+# -----------------------------------------------------------------------------
+watch:
+  # How long to wait after the last change before rebuilding, in milliseconds.
+  # A rebuild takes far longer than this, so raise it if your editor autosaves
+  # while you type; lower it for a snappier loop on a small document.
+  debounce_ms: 1000
+
+# -----------------------------------------------------------------------------
+# metadata - document properties written into the DOCX and the PDF (optional)
+# Omit a field or set null to clear it (reproducible builds).
+# Dates: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS
+# PDF has no place for category, comments and last_modified_by: those three
+# reach the DOCX only.
+# Usually set in config.yaml, not here.
+# -----------------------------------------------------------------------------
+# metadata:
+#   title: Thesis title
+#   author: Author Name
+#   subject: GOST-compliant thesis
+#   keywords: markdown, docx, gost
+#   category: null
+#   comments: null
+#   language: ru-RU
+#   last_modified_by: null
+#   created: 2026-01-15
+#   modified: 2026-06-23
+
+# -----------------------------------------------------------------------------
+# style - typography, page layout, Word style names, tables, figures
+# -----------------------------------------------------------------------------
+style:
+  figures:
+    # Maximum width of embedded images (cm); height scales proportionally.
+    max_width_cm: 14
+
+  tables:
+    # Long-table continuation (GOST 7.32-2017): a continuation caption and
+    # repeated header row on each page break. Requires a layout engine.
+    # Code listings are not split (see docs/limitations/README.md).
+    continuation: true
+    continued_label: "Продолжение таблицы {n}"   # {n} = table number placeholder
+    continuation_align: right                    # left | right | center
+
+  dashes:
+    # Two cases are fixed and not configurable: a dash inside a word always
+    # becomes a hyphen (научно-исследовательский), and a dash already set tight
+    # between digits becomes an en dash, also tight (2025-2026 -> 2025–2026).
+    # Only the glyph changes; spacing is kept as typed, so "6 - 7" is left
+    # spaced as typed, and the linter reports it as spaced-range.
+    # The two below are the ones universities disagree about. ITMO's standard
+    # is set with the en dash both in captions ("Рисунок 1 – Название") and in
+    # running text; HSE, for one, asks for the em dash.
+    # normalize: false leaves every dash exactly as typed in the Markdown.
+    normalize: true
+    captions: en-dash   # en-dash | em-dash — separator in figure/table/listing captions
+    body: en-dash       # en-dash | em-dash — a dash between words, as punctuation
+
+  page:
+    width_cm: 21
+    height_cm: 29.7
+    margins_cm:
+      left: 3
+      right: 1.5
+      top: 2
+      bottom: 2
+    header_distance_cm: 1
+    footer_distance_cm: 1
+    # First printed page number in the footer (usually 6 for ITMO theses).
+    number_from: 6
+
+  text:
+    font_family: Times New Roman
+    body_font_pt: 14
+    heading_font_pt: 14
+    toc_entry_font_pt: 14
+    caption_font_pt: 14
+    listing_font_family: Courier New
+    code_line_font_pt: 10
+    footer_page_font_pt: 14
+    table_cell_font_pt: 12
+    line_spacing: 1.5              # multiplier when line_spacing_rule: multiple
+    line_spacing_rule: multiple    # multiple | single
+    indent_cm: 1.25                # first-line indent for body paragraphs (cm)
+    justify: true                  # justify body text (GOST)
+
+  # Word paragraph style names in the output DOCX (change if your template differs).
+  word_styles:
+    body: ДИПЛОМ - Обычный текст
+    toc_heading: ДИПЛОМ - Заголовок
+    figure: ДИПЛОМ - Рисунки
+    table_caption: ДИПЛОМ - Таблицы
+    code: ДИПЛОМ - Код
+    list_paragraph: List Paragraph
+    heading_1: Heading 1
+    heading_2: Heading 2
+    heading_3: Heading 3
+    toc_1: toc 1
+    toc_2: toc 2
+    toc_3: toc 3
+    footer: Footer
+
+# -----------------------------------------------------------------------------
+# profiles - defined in config.yaml (not in this file)
+# -----------------------------------------------------------------------------
+# active_profile: my-thesis
+#
+# profiles:
+#   my-thesis:
+#     docx: VKR.docx                      # output DOCX path (relative to config)
+#     markdown_dir: md                    # folder with chapter .md files
+#     images_dir: assets                  # image root (null if none)
+#     listings_dir: listings              # @listing root (defaults to images_dir)
+#     markdown_files:                     # merge order (required, non-empty)
+#       - 01-introduction.md
+#       - 02-chapter1.md

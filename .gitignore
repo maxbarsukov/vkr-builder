@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+.env
+
+# Local scratch / visual checks
+output/
+
+# Build artifacts
+_bundle.md
+*.preview.docx
+*.preview.pdf
+*.docx
+*.pdf
+!example/VKR-example.docx
+!example/VKR-example.pdf
+
+# Test artifacts
+.pytest_cache/
+_cache/
+.coverage
+htmlcov/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo

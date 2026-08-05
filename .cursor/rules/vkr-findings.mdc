@@ -1,0 +1,75 @@
+---
+description: What vkr-builder findings mean, how to fix them, and when to silence one with @suppress
+globs: ["**/md/**/*.md", "src/vkr/md_lint.py", "src/vkr/diagnostics.py", "src/vkr/suppress.py"]
+alwaysApply: false
+---
+
+# Fixing findings
+
+Findings carry a stable rule name (`rule` in `--json`). Fix by rule, not by
+wording — the wording changes, the rule does not.
+
+```
+    ✗ 04-chapter1.md:12  reference [рис:nope] has no matching figure caption
+```
+
+## Markdown (`lint`, and the pre-flight inside `build`)
+
+| Rule | Fix |
+|------|-----|
+| `unknown-reference` | add the caption carrying that `{key}`, or fix the key |
+| `unknown-key` | `{key}` in a caption/formula is defined nowhere |
+| `duplicate-key` | two objects share a key |
+| `unknown-citation` | cited source missing from the source list |
+| `uncited-source` | listed source nobody cites |
+| `unreferenced-object` | figure/table/listing nothing refers to |
+| `caption-order` | figures: caption after the image; tables/listings: before the block |
+| `caption-spacing` | image and caption on adjacent lines — separate with a blank line |
+| `comma-citation` | `[1, 2]` → `[1; 2]` |
+| `spaced-range` | `6 - 7` → `6-7`; suppress if the spacing is deliberate |
+| `table-columns` | row cell count ≠ header (error, blocks the build) |
+| `long-paragraph`, `empty-section` | split it / write body text |
+| `structural-heading` | level-1 heading that is not a GOST section name |
+| `numbering-gap` | use `{key}` numbering instead of explicit numbers |
+| `dictionary-order` | sort abbreviations/terms (or `build.sort_dictionary_lists: true`) |
+| `appendix-letter` | invalid or repeated appendix letter |
+| `listing-file` | the `@listing` file did not become a listing |
+
+`listing-file` covers several causes and the message names which: `file not
+found` (the path is relative to `listings_dir`, or `images_dir` when that key
+is unset — never to the Markdown file), `path escapes the listings directory`,
+`no listings directory is configured`, a range past the end of the file, a
+reversed range, a range starting at 0 where lines count from 1, `cannot read`
+for anything that is not UTF-8 text, and an
+`is empty` warning when the file has no lines. Do not suppress it: the caption
+and its number stay, the code does not, and nothing in the document says so.
+
+## Build
+
+`duplicate-source`, `image` (path against `images_dir`), `metadata` (dates
+`YYYY-MM-DD`), `table-continuation`, `toc-unstable`, `heading-mismatch`,
+`page-numbering`, `output-locked` (DOCX open in Word — a `-new` copy was
+saved), `unknown-element`.
+
+## Finished document (`diagnose`)
+
+`figure-captions`, `table-captions`, `empty-heading`, `orphan-widow` — their
+location is `paragraph N`, not a markdown line.
+
+## Suppressing
+
+Fix by default. Suppress only when the finding is correct and intended:
+
+```markdown
+<!-- @suppress unknown-reference -->
+```
+
+- `<!-- @suppress -->` covers the next element, `<!-- @suppress-file … -->`
+  the rest of the file.
+- A pattern matching no rule name falls back to a case-insensitive substring
+  of the message — prefer the rule name.
+- Suppressed findings stay counted and stay in `--json`; a suppressed error
+  does not fail the build; a directive that silences nothing is reported.
+
+At most ten warnings print before the rest are counted (`N not shown`) —
+rerun with `-v` before drawing conclusions.

@@ -1,0 +1,18 @@
+# Keep the build context to what the image actually needs
+.git
+.github
+.claude
+.cursor
+.pytest_cache
+**/__pycache__
+*.py[cod]
+.venv
+venv
+
+# Local scratch and generated documents
+_cache
+output
+preview.docx
+**/_bundle.md
+**/*.preview.docx
+**/*.preview.pdf

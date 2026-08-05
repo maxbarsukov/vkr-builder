@@ -1,0 +1,9 @@
+# Pinned dependency versions for reproducible installs.
+# Generated to match a known-good environment; regenerate with `pip freeze`
+# if you upgrade. Use `pip install -r requirements.lock`.
+python-docx==1.2.0
+PyYAML==6.0.3
+lxml==6.1.0
+typing_extensions==4.15.0
+# Windows-only: enables the Microsoft Word pagination/PDF engine.
+pywin32==306; sys_platform == "win32"

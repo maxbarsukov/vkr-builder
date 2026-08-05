@@ -1,0 +1,84 @@
+# =============================================================================
+# User config for vkr-builder (your thesis / project).
+# =============================================================================
+#
+# Run from this folder:
+#     vkr-builder.bat build          Windows
+#     ./vkr-builder.sh build         Linux/macOS
+#
+# Merged on top of config.defaults.yaml - your keys win.
+# All settings with comments: config.defaults.yaml
+# Commands and CLI flags: vkr-builder help
+#
+# =============================================================================
+
+# Profile used when --profile is not passed.
+active_profile: example
+
+# One profile = one document variant (thesis, example, test).
+profiles:
+  example:
+    docx: example/VKR-example.docx
+    markdown_dir: example/md
+    images_dir: example/images
+    listings_dir: example/listings
+    markdown_files:
+      - 01-abbreviations.md
+      - 02-terms.md
+      - 03-introduction.md
+      - 04-chapter1.md
+      - 05-chapter2.md
+      - 06-conclusion.md
+      - 07-sources.md
+      - 08-appendix-a.md
+      - 09-appendix-b.md
+      - 10-appendix-c.md
+
+# -----------------------------------------------------------------------------
+# Build settings (defaults in config.defaults.yaml)
+# -----------------------------------------------------------------------------
+
+build:
+  # auto = use whatever is installed: Word first, else LibreOffice.
+  pagination_engine: auto
+
+# Other overrides - uncomment what you need.
+#
+# build:
+#   libreoffice_path: null        # path to soffice (null = search)
+#   pdf: false
+#   pdf_engine: null              # auto | word | libreoffice (null = layout engine)
+#   sort_dictionary_lists: false
+#   diagnose: false
+
+# lint:
+#   strict: false                 # true = warnings abort build
+
+# stats:
+#   min_sources: null
+#   page_min: null
+#   page_max: null
+
+# metadata:
+#   title: Thesis title
+#   author: Your Name
+#   subject: GOST-compliant thesis
+#   keywords: markdown, docx, gost
+#   language: ru-RU
+#   created: 2026-01-15
+#   modified: 2026-06-23
+
+# style:
+#   figures:
+#     max_width_cm: 14
+#   tables:
+#     continuation: true
+#     continuation_align: right   # left | right | center
+#   page:
+#     number_from: 6
+#   text:
+#     font_family: Times New Roman
+#     body_font_pt: 14
+#     line_spacing: 1.5
+#     indent_cm: 1.25
+#     justify: true
