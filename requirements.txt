@@ -1,5 +1,5 @@
-python-docx>=1.1.0
-PyYAML>=6.0
+python-docx>=1.2.0
+PyYAML>=6.0.3
 
 # Optional: Word COM pagination engine on Windows.
 pywin32>=306; sys_platform == "win32"
