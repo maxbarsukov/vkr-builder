@@ -9,6 +9,8 @@
 ![GitHub License](https://img.shields.io/github/license/maxbarsukov/vkr-builder)
 ![GitHub repo size](https://img.shields.io/github/repo-size/maxbarsukov/vkr-builder)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+[![Docker Pulls](https://img.shields.io/docker/pulls/nyapsilon/vkr-builder)](https://hub.docker.com/r/nyapsilon/vkr-builder)
+[![Docker Image Size](https://img.shields.io/docker/image-size/nyapsilon/vkr-builder/latest)](https://hub.docker.com/r/nyapsilon/vkr-builder/tags)
 [![tests](https://github.com/maxbarsukov/vkr-builder/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/maxbarsukov/vkr-builder/actions/workflows/tests.yml)
 
 ## 👷 Что такое vkr-builder?
@@ -101,6 +103,13 @@ vkr-builder.bat doctor           # Windows
 ```bash
 docker build -t vkr-builder .
 docker run --rm -v "$PWD/example:/work/example" vkr-builder build --pdf
+```
+
+Готовый образ на [Docker Hub](https://hub.docker.com/r/nyapsilon/vkr-builder):
+
+```bash
+docker pull nyapsilon/vkr-builder:latest
+docker run --rm -v "$PWD/example:/work/example" nyapsilon/vkr-builder build --pdf
 ```
 
 ### ⚡ Быстрый старт <a name="быстрый-старт"></a>

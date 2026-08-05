@@ -8,6 +8,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get install -y --no-install-recommends -o Dpkg::Use-Pty=0 \
         libreoffice-writer \
+        libreoffice-math \
+        fonts-liberation \
         python3-uno \
     && rm -rf /var/lib/apt/lists/*
 
