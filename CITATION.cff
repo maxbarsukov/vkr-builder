@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: vkr-builder
+message: "If you use this software, please cite it as below."
+type: software
+version: 0.1.0
+date-released: "2026-08-05"
+authors:
+  - family-names: Barsukov
+    given-names: Max
+    github: maxbarsukov
+  - github: HiterretiH
+repository-code: "https://github.com/maxbarsukov/vkr-builder"
+url: "https://github.com/maxbarsukov/vkr-builder"
+license: MIT
+keywords:
+  - thesis
+  - markdown
+  - docx
+  - gost
+  - vkr
+  - itmo

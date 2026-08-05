@@ -1,0 +1,4 @@
+-r requirements.txt
+
+pytest>=8.0
+watchdog>=4.0

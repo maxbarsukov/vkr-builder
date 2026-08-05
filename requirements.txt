@@ -1,0 +1,8 @@
+python-docx>=1.1.0
+PyYAML>=6.0
+
+# Optional: Word COM pagination engine on Windows.
+pywin32>=306; sys_platform == "win32"
+
+# Optional: watch mode.
+# watchdog>=4.0

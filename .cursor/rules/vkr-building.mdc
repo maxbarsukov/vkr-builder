@@ -1,0 +1,65 @@
+---
+description: How to run vkr-builder and read its report — commands, engines, exit codes, JSON and quiet output
+globs: ["config.yaml", "config.defaults.yaml", "Dockerfile", "vkr-builder.*"]
+alwaysApply: false
+---
+
+# Running vkr-builder
+
+Use the launcher, not `main.py` — it locates Python and names itself in the
+tool's hints:
+
+```bash
+vkr-builder.bat build          # Windows
+./vkr-builder.sh build         # Linux/macOS
+```
+
+`build` is the default command. Others: `merge`, `docx`, `pdf`, `preview
+<file.md>`, `lint`, `stats`, `validate`, `diagnose <docx>`, `watch`,
+`doctor`, `init`, `profiles`, `help`.
+
+Common flags: `--profile NAME`, `--pdf`, `--pagination-engine
+{auto,word,libreoffice}`, `--skip-merge`, `--skip-docx`, `--no-preflight`,
+`--diagnose`, `-v`, `--debug`, `-q`, `--json`.
+
+## Engines
+
+`auto` is the default: Word when installed, else LibreOffice. The report
+header says which was chosen (`word engine (auto)`); `doctor` lists both and
+what would be picked. A missing engine is only a warning there — "no layout
+engine available" is the failure.
+
+## Reading the report
+
+- Steps carry facts and timings, the footer carries the outcome and the
+  files produced.
+- Findings name the **source** markdown file and line, never `_bundle.md`.
+- `· N suppressed` means `@suppress` silenced something deliberately — a run
+  with a non-zero count is not "clean".
+- Exit codes: `0` success, `1` the command failed, `2` bad command line.
+
+## For scripts
+
+```bash
+docx=$(./vkr-builder.sh build -q)          # stdout: produced paths
+./vkr-builder.sh lint --json | jq '.findings[]'
+```
+
+`--json` emits the whole report — steps with timings, findings with rule and
+location, artifacts with sizes, result — on stdout.
+
+## Docker
+
+```bash
+docker build -t vkr-builder .
+docker run --rm -v "$PWD/example:/work/example" vkr-builder build --pdf
+```
+
+No Word in the image, so `auto` resolves to LibreOffice.
+
+## Never
+
+- edit or commit `_bundle.md`, `*.preview.docx`;
+- hand-edit generated DOCX or PDF; rebuild it.
+- add `--no-preflight` to get past lint errors — fix the markdown;
+- call a run successful when its footer shows `✗` or the exit code is not 0.

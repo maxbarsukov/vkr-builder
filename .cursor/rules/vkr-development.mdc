@@ -1,0 +1,61 @@
+---
+description: Conventions for changing the vkr-builder codebase — where output belongs, rule names, column widths, tests
+globs: ["src/**/*.py", "main.py"]
+alwaysApply: false
+---
+
+# Changing the code
+
+```
+src/vkr/cli.py            commands: parse, orchestrate, render the report
+src/vkr/ui.py             the only module that writes to the user
+src/vkr/progress.py       build phases as console steps
+src/vkr/logging_setup.py  logging -> findings bridge
+src/vkr/suppress.py       rule names and @suppress directives
+src/vkr/engines.py        Word / LibreOffice detection, "auto"
+src/vkr/md.py, md_lint.py markdown parsing and checks
+src/vkr/docx/             document building
+src/vkr/pagination.py     Word COM and LibreOffice UNO
+src/tests/                pytest
+```
+
+## Output
+
+- **Only `ui.py` writes to a stream.** Library modules call
+  `log.warning(...)`; `logging_setup` turns records into findings. No
+  `print()`, no direct `sys.stderr` outside `ui.py`.
+- Give user-facing warnings a rule so they can be suppressed and looked up:
+
+  ```python
+  log.warning("could not insert image %s: %s", path, exc,
+              extra={"rule": "image"})
+  ```
+
+  and document that name in `suppress.RULES` — a test fails on rules that
+  are used but undocumented.
+- Message style: lower-case opening, no trailing period, no module prefix.
+- Alignment uses terminal columns: `ui.text_width` / `ui._pad`, never `len()`
+  or `ljust()`. Any emoji is two columns wide and breaks every column after
+  it; the status glyphs are guarded by a test.
+- Body text keeps the terminal's default colour so the report works on light
+  and dark themes; colour is for status glyphs, the title and paths.
+
+## Commands
+
+Every command renders header → steps/findings → exactly one footer
+(`footer_ok`/`footer_warn`/`footer_fail`). Resolve the engine once via
+`_engine(cfg, args)`. Argparse never prints its own usage — `-h` and CLI
+errors go through this module's renderer.
+
+## Tests
+
+`python -m pytest src/tests`. UI behaviour is tested by rendering into a
+`StringIO` console (fake TTY for the live region); assert on columns and
+shapes, not on colour codes. A change to the report is not finished until
+the samples in `ui.py`'s docstring and in both READMEs match reality.
+
+## Habits
+
+- Never commit `_bundle.md` or `*.preview.docx`.
+- After touching the build path, run it for real as well as the suite: the
+  Word and LibreOffice paths are not covered by unit tests.
