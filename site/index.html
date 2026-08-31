@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>vkr-builder — ВКР по ГОСТ из Markdown</title>
+<meta name="description" content="vkr-builder собирает выпускную квалификационную работу в DOCX и PDF из файлов Markdown по требованиям ИТМО и ГОСТ 7.32-2017.">
+<meta name="theme-color" content="#2b579a">
+<meta name="color-scheme" content="light">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="vkr-builder">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<link rel="icon" href="icons/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+
+<meta property="og:url" content="https://vkr-builder.maxbarsukov.ru/">
+<link rel="canonical" href="https://vkr-builder.maxbarsukov.ru/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="vkr-builder">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="vkr-builder — ВКР по ГОСТ из Markdown">
+<meta property="og:description" content="Пишите ВКР в Markdown — получайте DOCX по ГОСТ. Нумерация, ссылки, содержание и PDF собираются сами.">
+<meta property="og:image" content="https://vkr-builder.maxbarsukov.ru/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Титульный лист: vkr-builder — выпускная квалификационная работа в DOCX и PDF из файлов Markdown">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="vkr-builder — ВКР по ГОСТ из Markdown">
+<meta name="twitter:description" content="Пишите ВКР в Markdown — получайте DOCX по ГОСТ. Нумерация, ссылки, содержание и PDF собираются сами.">
+<meta name="twitter:image" content="https://vkr-builder.maxbarsukov.ru/og-image.png">
+<meta name="twitter:image:alt" content="Титульный лист: vkr-builder — выпускная квалификационная работа в DOCX и PDF из файлов Markdown">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip" href="#doc">Перейти к документу</a>
+
+<div class="app">
+
+  <header class="chrome">
+    <div class="titlebar">
+      <span class="qat" aria-hidden="true">
+        <span class="qat-btn">↺</span><span class="qat-btn">↻</span>
+      </span>
+      <h1 class="docname">vkr-builder.docx<span class="docname-sub"> — vkr-builder</span></h1>
+      <div class="titlebar-right">
+        <span class="winbtns">
+          <i class="min" aria-hidden="true"></i>
+          <button class="winbtn max" type="button" data-action="fullscreen"
+                  title="Развернуть на весь экран" aria-label="Развернуть на весь экран"></button>
+          <button class="winbtn x" type="button" data-action="close"
+                  title="Закрыть вкладку" aria-label="Закрыть вкладку"></button>
+        </span>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Лента">
+      <button class="tab tab-file" data-toast="DOCX и PDF собирает команда build">Файл</button>
+      <button class="tab is-active" role="tab" aria-selected="true" data-tab="home">Главная</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="insert">Вставка</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="refs">Ссылки</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="view">Вид</button>
+      <button class="ribbon-toggle" aria-expanded="true" aria-controls="ribbon" title="Свернуть ленту">⌃</button>
+    </div>
+
+    <div class="ribbon" id="ribbon">
+
+      <div class="ribbon-panel is-active" data-panel="home">
+        <div class="grp">
+          <div class="grp-row">
+            <button class="btn big" data-toast="Текст работы живёт в Markdown-файлах">
+              <span class="ico">📋</span><span>Вставить</span>
+            </button>
+          </div>
+          <div class="grp-name">Буфер обмена</div>
+        </div>
+
+        <div class="grp">
+          <div class="grp-row">
+            <span class="combo wide" data-toast="Times New Roman — ключ style.text.font_family">Times New Roman<i>▾</i></span>
+            <span class="combo narrow" data-toast="Кегль 14 пт — ключ style.text.body_font_pt">14<i>▾</i></span>
+          </div>
+          <div class="grp-row">
+            <button class="btn sq bold" data-toast="Жирное начертание снимается при сборке">Ж</button>
+            <button class="btn sq ital" data-toast="А вот курсив разрешён!">К</button>
+            <button class="btn sq undl" data-toast="Подчёркивание в документе по ГОСТу не предусмотрено">Ч</button>
+            <button class="btn sq" data-toast="Цвет текста в документе — только чёрный">A<i class="swatch"></i></button>
+          </div>
+          <div class="grp-name">Шрифт</div>
+        </div>
+
+        <div class="grp">
+          <div class="grp-row">
+            <button class="btn sq" data-toast="Выключка по ширине — ключ style.text.justify">≡</button>
+            <button class="btn sq" data-toast="Красная строка 1,25 см — ключ style.text.indent_cm">⇥</button>
+            <span class="combo narrow" data-toast="Полуторный интервал — ключ style.text.line_spacing">1,5<i>▾</i></span>
+            <button class="btn sq pilcrow" data-action="marks" aria-pressed="false" title="Непечатаемые знаки">¶</button>
+          </div>
+          <div class="grp-name">Абзац</div>
+        </div>
+
+        <div class="grp grow">
+          <div class="grp-row">
+            <span class="style-chip is-active">ДИПЛОМ&nbsp;-&nbsp;Обычный текст</span>
+            <span class="style-chip">ДИПЛОМ&nbsp;-&nbsp;Заголовок</span>
+            <span class="style-chip mono">ДИПЛОМ&nbsp;-&nbsp;Код</span>
+          </div>
+          <div class="grp-name">Стили</div>
+        </div>
+
+        <div class="grp right">
+          <div class="grp-row">
+            <a class="btn big accent" href="https://github.com/maxbarsukov/vkr-builder"><span class="ico">★</span><span>GitHub</span></a>
+            <a class="btn big" href="#install"><span class="ico">⤓</span><span>Установка</span></a>
+          </div>
+          <div class="grp-name">vkr-builder</div>
+        </div>
+      </div>
+
+      <div class="ribbon-panel" data-panel="insert">
+        <div class="grp">
+          <div class="grp-row">
+            <a class="btn big" href="#fig1"><span class="ico">🖼</span><span>Рисунок</span></a>
+            <a class="btn big" href="#tab1"><span class="ico">▦</span><span>Таблица</span></a>
+            <a class="btn big" href="#eq1"><span class="ico">𝑓</span><span>Формула</span></a>
+            <a class="btn big" href="#lst1"><span class="ico">{}</span><span>Листинг</span></a>
+          </div>
+          <div class="grp-name">Объекты — каждый со своим ключом и сквозным номером</div>
+        </div>
+        <div class="grp right">
+          <div class="grp-row">
+            <span class="hint wrap">Номер объекту присваивается при сборке. В Markdown вы пишете ключ:
+              <code>Рисунок {pipeline} - Схема обработки</code></span>
+          </div>
+          <div class="grp-name">Как это записано</div>
+        </div>
+      </div>
+
+      <div class="ribbon-panel" data-panel="refs">
+        <div class="grp">
+          <div class="grp-row">
+            <a class="btn big" href="#toc"><span class="ico">☰</span><span>Оглавление</span></a>
+            <a class="btn big" href="#ref-demo"><span class="ico">↗</span><span>Перекрёстная<br>ссылка</span></a>
+            <a class="btn big" href="#sources"><span class="ico">❝</span><span>Список<br>источников</span></a>
+          </div>
+          <div class="grp-name">Ссылки</div>
+        </div>
+        <div class="grp right">
+          <div class="grp-row">
+            <span class="hint wrap">Номера страниц в содержании проставляет движок вёрстки — Word или LibreOffice.</span>
+          </div>
+          <div class="grp-name">Откуда номера страниц</div>
+        </div>
+      </div>
+
+      <div class="ribbon-panel" data-panel="view">
+        <div class="grp">
+          <div class="grp-row">
+            <button class="btn big" data-action="marks" aria-pressed="false"><span class="ico">¶</span><span>Непечатаемые<br>знаки</span></button>
+            <a class="btn big" href="#p1"><span class="ico">⇱</span><span>В начало<br>документа</span></a>
+          </div>
+          <div class="grp-name">Отображение</div>
+        </div>
+        <div class="grp right">
+          <div class="grp-row">
+            <span class="hint wrap">Размер листа, поля и номер внизу по центру описаны в разделе <b>style.page</b>.</span>
+          </div>
+          <div class="grp-name">Страница</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobilebar">
+      <a class="mb" href="#toc">Содержание</a>
+      <a class="mb" href="#install">Установка</a>
+      <button class="mb" data-action="marks" aria-pressed="false" title="Непечатаемые знаки">¶</button>
+      <a class="mb mb-accent" href="https://github.com/maxbarsukov/vkr-builder">GitHub</a>
+    </div>
+  </header>
+
+  <main class="canvas" id="doc">
+    <div class="zoomwrap">
+
+      <div class="ruler" aria-hidden="true">
+        <div class="ruler-in">
+          <i class="rm rm-first" data-toast="Отступ первой строки — ключ style.text.indent_cm"></i>
+          <i class="rm rm-hang" data-toast="Левое поле 3 см — ключ style.page.margins_cm"></i>
+          <i class="rm rm-left" data-toast="Левое поле 3 см — ключ style.page.margins_cm"></i>
+          <i class="rm rm-right" data-toast="Правое поле 1,5 см — ключ style.page.margins_cm"></i>
+        </div>
+      </div>
+
+      <section class="page page-title" id="p1">
+        <div class="page-body">
+          <p class="ttl-org">Проект с открытым исходным кодом</p>
+
+          <div class="ttl-mid">
+            <p class="ttl-kind">Утилита для сборки</p>
+            <h2 class="ttl-name">vkr-builder<span class="caret" aria-hidden="true"></span></h2>
+            <p class="ttl-topic">Выпускная квалификационная работа в DOCX и PDF<br>из файлов Markdown</p>
+            <hr class="ttl-rule">
+            <p class="ttl-std">Оформление по ГОСТ 7.32-2017<br>и стандарту ИТМО ЛНАОБУЧ-СМК-03-05-2022</p>
+          </div>
+
+          <div class="ttl-cta">
+            <a class="wbtn primary" href="https://github.com/maxbarsukov/vkr-builder">Открыть на GitHub</a>
+            <a class="wbtn" href="#install">Быстрый старт</a>
+          </div>
+
+          <div class="ttl-sign">
+            <p class="ttl-line">Авторы:
+              <a class="ttl-val" href="https://github.com/maxbarsukov">Max Barsukov</a>,
+              <a class="ttl-val" href="https://github.com/HiterretiH">HiterretiH</a></p>
+            <p class="ttl-line">
+              <a href="https://github.com/maxbarsukov/vkr-builder/releases">Версия 0.1.0</a>,
+              <a href="https://github.com/maxbarsukov/vkr-builder/blob/master/LICENSE">лицензия MIT</a></p>
+          </div>
+
+          <p class="ttl-city">Санкт-Петербург, <span id="year">2026</span></p>
+        </div>
+      </section>
+
+      <section class="page" id="toc">
+        <div class="page-body">
+          <h2 class="h-struct">СОДЕРЖАНИЕ</h2>
+          <nav class="toc" aria-label="Содержание">
+            <a class="toc-i lvl1" href="#intro"><span class="toc-t">ВВЕДЕНИЕ</span><span class="toc-d"></span><span class="toc-p">3</span></a>
+            <a class="toc-i lvl1" href="#ch1"><span class="toc-t">1 Разметка</span><span class="toc-d"></span><span class="toc-p">4</span></a>
+            <a class="toc-i lvl1" href="#install"><span class="toc-t">2 Установка и запуск</span><span class="toc-d"></span><span class="toc-p">5</span></a>
+            <a class="toc-i lvl2" href="#ch2-1"><span class="toc-t">2.1 Требования и платформы</span><span class="toc-d"></span><span class="toc-p">5</span></a>
+            <a class="toc-i lvl2" href="#ch2-2"><span class="toc-t">2.2 Docker</span><span class="toc-d"></span><span class="toc-p">5</span></a>
+            <a class="toc-i lvl1" href="#concl"><span class="toc-t">ЗАКЛЮЧЕНИЕ</span><span class="toc-d"></span><span class="toc-p">6</span></a>
+            <a class="toc-i lvl1" href="#sources"><span class="toc-t">СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ</span><span class="toc-d"></span><span class="toc-p">7</span></a>
+            <a class="toc-i lvl1" href="#appA"><span class="toc-t">ПРИЛОЖЕНИЕ А Команды</span><span class="toc-d"></span><span class="toc-p">8</span></a>
+          </nav>
+        </div>
+      </section>
+
+      <section class="page" id="intro" data-page="3">
+        <div class="page-body">
+          <h2 class="h-struct">ВВЕДЕНИЕ</h2>
+
+          <p>Выпускная квалификационная работа сдаётся не только по содержанию, но и по
+          оформлению: шрифт, интервалы, поля, стили заголовков, подписи под рисунками,
+          сквозная нумерация объектов и содержание.</p>
+
+          <p>vkr-builder переносит оформление на сторону программы. Автор пишет главы в
+          Markdown, а документ по ГОСТ 7.32-2017 <a class="cite" href="#src1">[1]</a>
+          и требованиям ИТМО <a class="cite" href="#src2">[2]</a> собирается командой из одной
+          строки <a class="cite" href="#src3">[3]</a>. Порядок работы показан на
+          рисунке&nbsp;<a class="ref" href="#fig1">1</a>.</p>
+
+          <figure class="fig" id="fig1">
+            <svg class="fig-wide" viewBox="0 0 660 116" role="img" aria-label="Студент пишет ВКР в Markdown, vkr-builder собирает DOCX и PDF, студент проходит нормоконтроль">
+              <defs>
+                <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+                </marker>
+              </defs>
+              <g class="bx round">
+                <rect x="0" y="20" width="210" height="62" rx="6"/>
+                <text x="105" y="46"><tspan class="strike">Claude</tspan> Студент пишет</text>
+                <text x="105" y="66">ВКР в Markdown</text>
+              </g>
+              <g class="bx round">
+                <rect x="225" y="20" width="210" height="62" rx="6"/>
+                <text x="330" y="46">vkr-builder собирает</text>
+                <text x="330" y="66">DOCX и PDF</text>
+              </g>
+              <g class="bx round">
+                <rect x="450" y="20" width="210" height="62" rx="6"/>
+                <text x="555" y="46">Студент проходит</text>
+                <text x="555" y="66">нормоконтроль</text>
+              </g>
+              <g class="ar">
+                <line x1="210" y1="51" x2="220" y2="51" marker-end="url(#ah)"/>
+                <line x1="435" y1="51" x2="445" y2="51" marker-end="url(#ah)"/>
+              </g>
+            </svg>
+
+            <svg class="fig-tall" viewBox="0 0 300 300" role="img" aria-label="Студент пишет ВКР в Markdown, vkr-builder собирает DOCX и PDF, студент проходит нормоконтроль">
+              <defs>
+                <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+                </marker>
+              </defs>
+              <g class="bx round">
+                <rect x="35" y="4" width="230" height="62" rx="6"/>
+                <text x="150" y="30"><tspan class="strike">Claude</tspan> Студент пишет</text>
+                <text x="150" y="50">ВКР в Markdown</text>
+              </g>
+              <g class="bx round">
+                <rect x="35" y="119" width="230" height="62" rx="6"/>
+                <text x="150" y="145">vkr-builder собирает</text>
+                <text x="150" y="165">DOCX и PDF</text>
+              </g>
+              <g class="bx round">
+                <rect x="35" y="234" width="230" height="62" rx="6"/>
+                <text x="150" y="260">Студент проходит</text>
+                <text x="150" y="280">нормоконтроль</text>
+              </g>
+              <g class="ar">
+                <line x1="150" y1="66" x2="150" y2="114" marker-end="url(#ah2)"/>
+                <line x1="150" y1="181" x2="150" y2="229" marker-end="url(#ah2)"/>
+              </g>
+            </svg>
+
+            <figcaption>Рисунок 1 <span class="dash">–</span> Порядок работы</figcaption>
+          </figure>
+
+          <p>Требования другого вуза покрываются правкой конфигурации: оформление
+          задаётся там, а не в тексте.</p>
+        </div>
+        <div class="page-num">3</div>
+      </section>
+
+      <section class="page" id="ch1" data-page="4">
+        <div class="page-body">
+          <h2 class="h1">1 Разметка</h2>
+
+          <p id="ref-demo">Работа пишется в обычном Markdown. Отличие одно: у рисунка,
+          таблицы, листинга и формулы есть подпись с ключом, а в тексте вы ссылаетесь на
+          ключ, а не на номер. Так сделаны ссылки на рисунок&nbsp;<a class="ref" href="#fig1">1</a>
+          и листинг&nbsp;<a class="ref" href="#lst1">1</a> в этом абзаце.</p>
+
+          <div class="lst-cap" id="lst1">Листинг 1 <span class="dash">–</span> Рисунок с подписью и ссылка на него</div>
+          <div class="listing">
+            <button class="copy" type="button">Копировать</button>
+<pre><code>![Схема обработки](fig01-pipeline.png)
+
+Рисунок {pipeline} - Схема обработки
+
+Порядок разбора показан на рисунке [рис:pipeline].</code></pre>
+          </div>
+
+          <p>Формула набирается в подмножестве LaTeX и попадает в документ редактируемым
+          объектом Word, а её номер встаёт справа, у края текста:</p>
+
+          <div class="eq" id="eq1">
+            <span class="eq-body"><i>E</i> = <i>mc</i><sup>2</sup></span>
+            <span class="eq-num">(1)</span>
+          </div>
+        </div>
+        <div class="page-num">4</div>
+      </section>
+
+      <section class="page" id="install" data-page="5">
+        <div class="page-body">
+          <h2 class="h1">2 Установка и запуск</h2>
+
+          <h3 class="h2" id="ch2-1">2.1 Требования и платформы</h3>
+          <p>Для сборки нужен Python 3.10 или новее. Движок вёрстки — Microsoft Word
+          с пакетом <code>pywin32</code> (Windows) или LibreOffice (Windows, Linux, macOS).
+          Установленные зависимости показывает команда <code>doctor</code>.</p>
+
+          <div class="lst-cap">Листинг 2 <span class="dash">–</span> Установка и сборка</div>
+          <div class="listing">
+            <button class="copy" type="button">Копировать</button>
+<pre><code>git clone https://github.com/maxbarsukov/vkr-builder.git
+cd vkr-builder
+
+python -m venv .venv
+.venv\Scripts\activate          # Windows
+source .venv/bin/activate       # Linux / macOS
+pip install -r requirements.txt
+
+vkr-builder.bat doctor          # что нашлось в системе
+vkr-builder.bat build --pdf     # собрать DOCX и PDF</code></pre>
+          </div>
+
+          <h3 class="h2" id="ch2-2">2.2 Docker</h3>
+          <p>Ставить Python и LibreOffice на свою систему не обязательно: то же самое делает
+          готовый образ <a class="cite" href="#src3">[3]</a>. Каталог с работой подключается
+          томом, результат остаётся в нём же.</p>
+
+          <div class="lst-cap">Листинг 3 <span class="dash">–</span> Сборка в Docker</div>
+          <div class="listing">
+            <button class="copy" type="button">Копировать</button>
+<pre><code>docker pull nyapsilon/vkr-builder
+
+docker run --rm -v "$PWD/example:/work/example" \
+    nyapsilon/vkr-builder build --pdf</code></pre>
+          </div>
+        </div>
+        <div class="page-num">5</div>
+      </section>
+
+      <section class="page" id="concl" data-page="6">
+        <div class="page-body">
+          <h2 class="h-struct">ЗАКЛЮЧЕНИЕ</h2>
+          <p>Markdown — обычный текст, и работать с ним умеет не только человек: правку
+          главы можно поручить языковой модели, а разницу между версиями показывает git.
+          vkr-builder закрывает единственное, чего Markdown не умеет сам: оформление
+          по ГОСТу.</p>
+          <p>Спецификацию разметки можно целиком отдать ИИ-ассистенту перед генерацией
+          главы; для Claude Code и Cursor правила уже лежат в репозитории.</p>
+
+          <div class="cta-band">
+            <a class="wbtn primary" href="https://github.com/maxbarsukov/vkr-builder">Открыть репозиторий</a>
+            <a class="wbtn" href="https://github.com/maxbarsukov/vkr-builder/tree/master/example">Посмотреть пример ВКР</a>
+            <a class="wbtn" href="https://github.com/maxbarsukov/vkr-builder/tree/master/docs">Документация</a>
+          </div>
+        </div>
+        <div class="page-num">6</div>
+      </section>
+
+      <section class="page" id="sources" data-page="7">
+        <div class="page-body">
+          <h2 class="h-struct">СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ</h2>
+          <ol class="src">
+            <li id="src1">ГОСТ 7.32-2017. Система стандартов по информации, библиотечному и
+              издательскому делу. Отчёт о научно-исследовательской работе. Структура и
+              правила оформления. – М.: Стандартинформ, 2017. – 27 с.</li>
+            <li id="src2">Требования к выпускным квалификационным работам: ЛНАОБУЧ-СМК-03-05-2022,
+              версия 4.0 [Электронный ресурс]. – Университет ИТМО. –
+              URL: <a href="https://student.itmo.ru/files/1314">student.itmo.ru/files/1314</a>
+              (дата обращения: <span class="today">05.08.2026</span>).</li>
+            <li id="src3">vkr-builder [Электронный ресурс]: репозиторий проекта. –
+              URL: <a href="https://github.com/maxbarsukov/vkr-builder">github.com/maxbarsukov/vkr-builder</a>
+              (дата обращения: <span class="today">05.08.2026</span>).</li>
+            <li id="src4">Документация проекта [Электронный ресурс]: правила разметки, команды,
+              каталог проверок. –
+              URL: <a href="https://github.com/maxbarsukov/vkr-builder/tree/master/docs">github.com/maxbarsukov/vkr-builder/docs</a>
+              (дата обращения: <span class="today">05.08.2026</span>).</li>
+          </ol>
+        </div>
+        <div class="page-num">7</div>
+      </section>
+
+      <section class="page" id="appA" data-page="8">
+        <div class="page-body">
+          <h2 class="h-struct">ПРИЛОЖЕНИЕ А<br><span class="app-name">Команды</span></h2>
+
+          <div class="tbl-cap" id="tab1">Таблица А.1 <span class="dash">–</span> Основные команды</div>
+          <div class="tbl-wrap">
+            <table class="tbl tbl-cmd">
+              <thead><tr><th>Команда</th><th>Назначение</th></tr></thead>
+              <tbody>
+                <tr><td><code>build</code></td><td>Объединить Markdown и собрать DOCX</td></tr>
+                <tr><td><code>pdf</code></td><td>Конвертировать готовый DOCX в PDF</td></tr>
+                <tr><td><code>lint</code></td><td>Проверить Markdown на ошибки оформления</td></tr>
+                <tr><td><code>watch</code></td><td>Автопересборка при изменении файлов</td></tr>
+                <tr><td><code>doctor</code></td><td>Проверка зависимостей и движков</td></tr>
+                <tr><td><code>init</code></td><td>Создать шаблон <code>config.yaml</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="colophon">Остальные команды, флаги, переменные окружения и коды возврата –
+          в документации <a class="cite" href="#src4">[4]</a>. Проект распространяется по
+          лицензии MIT.</p>
+        </div>
+        <div class="page-num">8</div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="statusbar">
+    <span class="st st-page">Страница <b id="st-cur">1</b> из <b id="st-tot">8</b></span>
+    <span class="st st-words">Число слов: <b id="st-words">—</b></span>
+    <span class="st st-lang">Русский (Россия)</span>
+    <span class="st st-spacer"></span>
+    <span class="st st-marks">
+      <button class="st-btn" data-action="marks" aria-pressed="false" title="Непечатаемые знаки">¶</button>
+    </span>
+    <span class="st st-zoom">
+      <button class="st-btn" id="zoom-out" title="Мельче">−</button>
+      <span class="zoom-val" id="zoom-val">100%</span>
+      <button class="st-btn" id="zoom-in" title="Крупнее">+</button>
+    </span>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

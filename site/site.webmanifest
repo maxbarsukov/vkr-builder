@@ -1,0 +1,66 @@
+{
+  "id": "./",
+  "name": "vkr-builder — ВКР по ГОСТ из Markdown",
+  "short_name": "vkr-builder",
+  "description": "Пишите ВКР в Markdown — получайте DOCX по ГОСТ. Нумерация, ссылки, содержание и PDF собираются сами.",
+  "lang": "ru",
+  "dir": "ltr",
+  "categories": ["productivity", "education", "utilities"],
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#2b579a",
+  "icons": [
+    { "src": "icons/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/favicon-96.png", "sizes": "96x96", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/desktop.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Документ по ГОСТ в окне редактора: лента, линейка и страница A4"
+    },
+    {
+      "src": "screenshots/mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Титульный лист на телефоне"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Содержание",
+      "short_name": "Содержание",
+      "description": "Перейти к содержанию документа",
+      "url": "./#toc"
+    },
+    {
+      "name": "Установка и запуск",
+      "short_name": "Установка",
+      "description": "Раздел 2: требования, установка, сборка",
+      "url": "./#install"
+    },
+    {
+      "name": "Список использованных источников",
+      "short_name": "Источники",
+      "description": "ГОСТ, требования ИТМО и документация проекта",
+      "url": "./#sources"
+    },
+    {
+      "name": "Команды",
+      "short_name": "Команды",
+      "description": "Приложение А: справочник команд",
+      "url": "./#appA"
+    }
+  ]
+}

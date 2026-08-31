@@ -59,6 +59,7 @@ Formatting follows the ITMO standard [**ЛНАОБУЧ-СМК-03-05-2022**](http
 | [docs/cli/](docs/cli/README.en.md) | Commands, flags, environment variables, config|
 | [docs/rules/](docs/rules/README.en.md) | Catalogue of check rules |
 | [docs/limitations/](docs/limitations/README.en.md) | Known limitations |
+| [site/](site/) | Project website |
 
 ## 🚀 Getting started <a name="getting-started"></a>
 ### 💻 Requirements and platforms <a name="requirements-and-platforms"></a>
@@ -254,6 +255,7 @@ example/             Demo thesis
   VKR-example.docx     Build result
 docs/                llm-format, cli, rules, limitations
 .github/             CI, PR/issue templates, Dependabot, CONTRIBUTING
+site/                Project website
 .claude/ .cursor/    Rules for AI assistants
 ```
 

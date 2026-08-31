@@ -59,6 +59,7 @@ flowchart LR
 | [docs/cli/](docs/cli/) | Команды, флаги, переменные окружения, конфигурация |
 | [docs/rules/](docs/rules/) | Каталог правил проверок |
 | [docs/limitations/](docs/limitations/) | Известные ограничения |
+| [site/](site/) | Веб-сайт проекта |
 
 ## 🚀 Начало работы <a name="начало-работы"></a>
 ### 💻 Требования и платформы <a name="требования-и-платформы"></a>
@@ -253,6 +254,7 @@ example/             Демо-ВКР
   VKR-example.docx     Результат сборки
 docs/                llm-format, cli, rules, limitations
 .github/             CI, шаблоны PR/issue, Dependabot, CONTRIBUTING
+site/                Веб-сайт проекта
 .claude/ .cursor/    Правила для ИИ-ассистентов
 ```
 

@@ -1,0 +1,58 @@
+# vkr-builder
+
+> Утилита, которая собирает выпускную квалификационную работу (ВКР) в DOCX и PDF из
+> файлов Markdown по требованиям ИТМО (ЛНАОБУЧ-СМК-03-05-2022) и ГОСТ 7.32-2017.
+> Студент пишет текст в Markdown — оформление, нумерацию, перекрёстные ссылки,
+> оглавление и экспорт в PDF инструмент берёт на себя.
+
+Ключевые факты:
+
+- Открытый исходный код, лицензия MIT. Python 3.10+, зависимости — `python-docx`, `PyYAML`.
+- Входные данные — обычный Markdown; на выходе DOCX и PDF, оформленные по ГОСТ.
+  Нумерация рисунков, таблиц, формул и источников, перекрёстные ссылки и содержание
+  проставляются при сборке.
+- Оформление задаётся в `config.yaml` (шрифт, кегль, интервалы, поля), поэтому
+  инструмент адаптируется и под требования других вузов.
+- Для PDF нужен Microsoft Word (только Windows) или LibreOffice в headless-режиме
+  (Windows, Linux, macOS). Есть образ Docker.
+- Этот сайт — одностраничная витрина проекта. Вся документация лежит в репозитории
+  на GitHub, ссылки ниже.
+
+## Документация
+
+- [Репозиторий на GitHub](https://github.com/maxbarsukov/vkr-builder): исходный код.
+- [README (русский)](https://github.com/maxbarsukov/vkr-builder/blob/master/README.md): что это, установка, быстрый старт, структура проекта.
+- [README (English)](https://github.com/maxbarsukov/vkr-builder/blob/master/README.en.md): то же самое на английском.
+- [Правила разметки Markdown](https://github.com/maxbarsukov/vkr-builder/blob/master/docs/llm-format/README.md): полная спецификация формата — заголовки, подписи с ключами, перекрёстные ссылки, цитирование, формулы, таблицы, приложения. Это основной документ, который стоит прочитать перед генерацией текста работы.
+- [Справочник командной строки](https://github.com/maxbarsukov/vkr-builder/blob/master/docs/cli/README.md): команды, флаги, конфигурация, переменные окружения, коды возврата, формат отчёта.
+- [Каталог правил проверок](https://github.com/maxbarsukov/vkr-builder/blob/master/docs/rules/README.md): имена правил `lint`, что означает каждое предупреждение и как его исправить.
+
+## Использование
+
+- [Демо-пример ВКР](https://github.com/maxbarsukov/vkr-builder/tree/master/example): готовая работа целиком — главы в Markdown, изображения, листинги и собранный DOCX.
+- [Пользовательский конфиг](https://github.com/maxbarsukov/vkr-builder/blob/master/config.yaml): где лежит работа, куда собирается результат, какие профили есть.
+- [Системные настройки по умолчанию](https://github.com/maxbarsukov/vkr-builder/blob/master/config.defaults.yaml): все ключи оформления со значениями по умолчанию.
+- [Образ на Docker Hub](https://hub.docker.com/r/nyapsilon/vkr-builder): сборка без установки Python и LibreOffice на хост.
+
+Основные команды (`./vkr-builder.sh` на Linux и macOS, `vkr-builder.bat` на Windows):
+
+```
+doctor      проверка зависимостей и движков вёрстки
+init        создать шаблон config.yaml
+validate    проверить конфиг и наличие входных файлов
+lint        проверить Markdown на ошибки оформления
+stats       статистика: главы, рисунки, источники, оценка объёма
+build       собрать DOCX (с --pdf — и PDF)
+preview     собрать одну главу в preview.docx
+pdf         конвертировать готовый DOCX в PDF
+watch       автопересборка при изменении файлов
+diagnose    отчёт о качестве уже собранного DOCX
+```
+
+## Проект
+
+- [Инструкции для ИИ-агентов](https://github.com/maxbarsukov/vkr-builder/blob/master/AGENTS.md): как вести себя в репозитории, где искать правила разметки.
+- [Как внести вклад](https://github.com/maxbarsukov/vkr-builder/blob/master/.github/CONTRIBUTING.md): оформление изменений, проверки CI, требования к PR.
+- [Политика безопасности](https://github.com/maxbarsukov/vkr-builder/blob/master/.github/SECURITY.md): как приватно сообщить об уязвимости.
+- [Лицензия MIT](https://github.com/maxbarsukov/vkr-builder/blob/master/LICENSE): условия использования.
+- [Метаданные для цитирования](https://github.com/maxbarsukov/vkr-builder/blob/master/CITATION.cff): как сослаться на инструмент в академической работе.
