@@ -64,7 +64,7 @@ jobs:
 
       - name: Keep the built document
         if: matrix.python-version == '3.12'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: VKR-example
           path: |
